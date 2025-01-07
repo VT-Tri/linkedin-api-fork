@@ -178,6 +178,9 @@ class Linkedin(object):
         if data and "status" in data and data["status"] != 200:
             self.logger.info("request failed: {}".format(data["status"]))
             return [{}]
+        # Ensure paginationToken exists in metadata
+        if "metadata" not in data or "paginationToken" not in data["metadata"]:
+            return [{}]
         while data and data["metadata"]["paginationToken"] != "":
             if len(data["elements"]) >= comment_count:
                 break
