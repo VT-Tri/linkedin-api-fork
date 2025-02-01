@@ -1726,7 +1726,7 @@ class Linkedin(object):
         data = res.json()
 
         if (
-            len(data["elements"]) == 0
+            len(data.get("elements", [])) == 0
             or (max_results is not None and len(results) >= max_results)
             or (
                 max_results is not None
@@ -1735,7 +1735,7 @@ class Linkedin(object):
         ):
             return results
 
-        results.extend(data["elements"])
+        results.extend(data.get("elements", []))
         self.logger.debug(f"results grew: {len(results)}")
 
         return self.get_post_reactions(
